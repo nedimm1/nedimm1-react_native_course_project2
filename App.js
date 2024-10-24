@@ -1,9 +1,22 @@
-import React from 'react';
+import { useState } from 'react';
 import { StyleSheet, ImageBackground, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'; // Correct import for LinearGradient
 import StartGameScreen from './screens/StartGameScreen';
+import GameScreen from './screens/GameScreen';
 
 export default function App() {
+  const [pickedNumber, setPickedNumber] = useState(null);
+
+  function pickedNumberHandler(response) {
+    setPickedNumber(response);
+  }
+
+  let screen = <StartGameScreen onPick={pickedNumberHandler} />; // Pass pickedNumberHandler
+
+  if (pickedNumber) {
+    screen = <GameScreen />;
+  }
+
   return (
     <LinearGradient colors={['#4e0329', '#ddb52f']} style={styles.rootScreen}>
       <ImageBackground
@@ -12,11 +25,8 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImage}
       >
-        {/* Overlay to let the gradient show through */}
         <View style={styles.overlay} />
-        
-        {/* StartGameScreen content */}
-        <StartGameScreen />
+        {screen}
       </ImageBackground>
     </LinearGradient>
   );
@@ -27,10 +37,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundImage: {
-    opacity: 0.8, // Optional if you want some opacity on the background image
+    opacity: 0.8,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject, // This makes the overlay fill the entire ImageBackground
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Semi-transparent black to let the gradient show
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 });
