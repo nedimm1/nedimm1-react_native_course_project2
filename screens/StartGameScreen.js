@@ -1,17 +1,31 @@
 import { useState } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Alert, Text } from "react-native";  // Make sure Text is imported
 import PrimaryButton from "../components/PrimaryButton";
 
 function StartGameScreen() {
+  const [enteredNumber, setEnteredNumber] = useState("");
 
-  const [enteredText, sEnteredText] = useState("")
-
-  function handleEnteredText(DThext){
-     sEnteredText(DThext)
+  function handleEnteredText(DNumber) {
+    setEnteredNumber(DNumber);
   }
 
-  function check(){
+  function resetInputHandler() {
+    setEnteredNumber("");
+  }
 
+  function confirmInputHandler() {
+    const chosenNumber = parseInt(enteredNumber);
+
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        "Invalid number!",
+        "Number has to be a number between 1 and 99.",
+        [{ text: "Okay", style: "destructive", onPress: resetInputHandler }]
+      );
+      return;
+    }
+
+    console.log("Valid number!");
   }
 
   return (
@@ -22,16 +36,20 @@ function StartGameScreen() {
         keyboardType="number-pad"
         autoCapitalize="none"
         autoCorrect={false}
-        onChangeText={enteredText}
-        value={enteredText}
-      ></TextInput>
+        onChangeText={handleEnteredText}
+        value={enteredNumber}
+      />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={check}>reset</PrimaryButton>
+          <PrimaryButton onPress={resetInputHandler}>
+            <Text>Reset</Text>  {/* Wrapped text in Text component */}
+          </PrimaryButton>
         </View>
 
         <View style={styles.buttonContainer}>
-          <PrimaryButton>confirm</PrimaryButton>
+          <PrimaryButton onPress={confirmInputHandler}>
+            <Text>Confirm</Text>  {/* Wrapped text in Text component */}
+          </PrimaryButton>
         </View>
       </View>
     </View>
@@ -40,15 +58,15 @@ function StartGameScreen() {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 100,
     marginHorizontal: 24,
     padding: 16,
-    backgroundColor: '#4e0329',
+    backgroundColor: "#4e0329",
     borderRadius: 8,
     elevation: 4,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     shadowOpacity: 0.25,
@@ -66,11 +84,11 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between", // added to space the buttons horizontally
+    justifyContent: "space-between",
   },
   buttonContainer: {
     flex: 1,
-    marginHorizontal: 8, // added margin between the buttons
+    marginHorizontal: 8,
   },
 });
 
