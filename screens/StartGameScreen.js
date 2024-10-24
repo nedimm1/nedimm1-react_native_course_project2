@@ -1,7 +1,19 @@
+import { useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 
 function StartGameScreen() {
+
+  const [enteredText, sEnteredText] = useState("")
+
+  function handleEnteredText(DThext){
+     sEnteredText(DThext)
+  }
+
+  function check(){
+
+  }
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -10,10 +22,12 @@ function StartGameScreen() {
         keyboardType="number-pad"
         autoCapitalize="none"
         autoCorrect={false}
+        onChangeText={enteredText}
+        value={enteredText}
       ></TextInput>
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>reset</PrimaryButton>
+          <PrimaryButton onPress={check}>reset</PrimaryButton>
         </View>
 
         <View style={styles.buttonContainer}>
