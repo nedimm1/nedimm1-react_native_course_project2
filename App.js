@@ -18,6 +18,12 @@ export default function App() {
     sGameOver(true);
   }
 
+  function restartHandler(){
+    screen = <StartGameScreen />
+    sGameOver(false)
+    setPickedNumber(null)
+  }
+
   let screen = <StartGameScreen onPick={pickedNumberHandler} />;
 
   if (pickedNumber) {
@@ -25,7 +31,7 @@ export default function App() {
   }
 
   if (gameOver) {
-    screen = <GameOverScreen />;
+    screen = <GameOverScreen onRestart={restartHandler}/>;
   }
 
   return (

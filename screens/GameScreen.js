@@ -18,19 +18,14 @@ function GameScreen({ userNumber, onGameOver }) {
   const minBoundary = useRef(1);
   const maxBoundary = useRef(100);
 
-  const initialGuess = generateRandomBetween(
-    1,
-    100,
-    userNumber
-  );
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-        onGameOver();
+      onGameOver();
     }
-}, [currentGuess, userNumber, onGameOver]);
-
+  }, [currentGuess, userNumber, onGameOver]);
 
   function nextGuessHandler(direction) {
     if (
@@ -61,19 +56,16 @@ function GameScreen({ userNumber, onGameOver }) {
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <View style={styles.buttonContainer}>
-        <Text>Higher or lower?</Text>
-        <View>
+      <View style={styles.card}>
+        <Text style={styles.promptText}>Higher or lower?</Text>
+        <View style={styles.buttonRow}>
           <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-            -
+            <Text style={styles.buttonText}>-</Text>
           </PrimaryButton>
           <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
-            +
+            <Text style={styles.buttonText}>+</Text>
           </PrimaryButton>
         </View>
-      </View>
-      <View>
-        <Text>LOG ROUNDS</Text>
       </View>
     </View>
   );
@@ -86,10 +78,33 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  buttonContainer: {
+  card: {
+    backgroundColor: "#b30409", // Light red/pink color for the card background
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.26,
+    elevation: 5,
+    alignItems: "center",
+    width: "80%",
+    alignSelf: "center",
+    marginTop: 20,
+  },
+  promptText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "##d9c302", // Bright yellow color for the prompt text
+    marginBottom: 10,
+  },
+  buttonRow: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "100%",
-    paddingTop: 20,
+    width: "60%",
+  },
+  buttonText: {
+    fontSize: 24,
+    color: "#fff",
   },
 });
